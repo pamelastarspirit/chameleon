@@ -4122,6 +4122,41 @@
 
   <script>
     // ============================================================
+    // MOBILE DETECTION & BLOCKING
+    // ============================================================
+    function checkMobile() {
+      const isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) || (window.innerWidth <= 768);
+      const modal = document.getElementById('mobileBlockModal');
+
+      if (isMobile) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+      } else {
+        // Optional: Hide modal if they switch to desktop view (e.g. rotate landscape)
+        // modal.classList.add('hidden');
+        // document.body.style.overflow = ''; 
+      }
+    }
+
+    // Run on load
+    window.addEventListener('load', checkMobile);
+    // Run on resize
+    window.addEventListener('resize', checkMobile);
+
+    // Prevent Join if active
+    document.addEventListener('click', function (e) {
+      if (e.target && e.target.classList.contains('join-btn')) {
+        if (!document.getElementById('mobileBlockModal').classList.contains('hidden')) {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }
+      }
+    }, true);
+  </script>
+
+  <script>
+    // ============================================================
     // SOURCE CODE PROTECTION
     // ============================================================
     (function () {
